@@ -1,8 +1,28 @@
 package com.quantallm
 
+import android.content.Context
+
 object QuantaLLM {
 
+    private var license: LicenseKey? = null
+    private var initialized = false
+
+    fun initialize(context: Context, licenseKey: String) {
+        license = LicenseKey.validate(context.applicationContext, licenseKey)
+        initialized = true
+    }
+
+    val isInitialized: Boolean get() = initialized
+
+    val licenseTier: String get() = license?.tier ?: "none"
+
     fun createEngine(backend: Backend): InferenceEngine {
+        val lic = license
+            ?: throw LicenseException("QuantaLLM.initialize(context, licenseKey) must be called before createEngine()")
+        if (lic.isExpired()) {
+            throw LicenseException("License expired on ${lic.expiryDate}")
+        }
+
         val className = when {
             backend.isLlamaCpp -> "com.quantallm.llamacpp.LlamaCppEngine"
             backend.isOnnx -> "com.quantallm.onnx.OnnxRuntimeEngine"
