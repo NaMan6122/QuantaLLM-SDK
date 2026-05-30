@@ -1,6 +1,4 @@
-# QuantaLLM ONNX - Consumer ProGuard Rules
-
-# Keep engine class (loaded via reflection by QuantaLLM.createEngine())
+# Keep engine class for reflection from QuantaLLM.createEngine()
 -keep public class com.quantallm.onnx.OnnxRuntimeEngine {
     public <init>(com.quantallm.Backend);
     public *;

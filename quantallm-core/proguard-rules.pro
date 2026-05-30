@@ -1,19 +1,18 @@
-# QuantaLLM Core - Consumer ProGuard Rules
-# These rules are bundled into the AAR and applied when the consumer app uses R8.
-
-# Public API
+# Keep public SDK API
 -keep public class com.quantallm.QuantaLLM { public *; }
 -keep public class com.quantallm.Backend { *; }
--keep public interface com.quantallm.InferenceEngine { *; }
--keep public interface com.quantallm.InferenceEngine$StreamingCallback { *; }
+-keep public class com.quantallm.InferenceEngine { *; }
+-keep public class com.quantallm.InferenceEngine$StreamingCallback { *; }
 -keep public class com.quantallm.GenerationParams { *; }
 -keep public class com.quantallm.GenerationResult { *; }
 -keep public class com.quantallm.GenerationResult$Success { *; }
 -keep public class com.quantallm.GenerationResult$Error { *; }
 -keep public class com.quantallm.ModelInfo { *; }
--keep public interface com.quantallm.ChatSession { *; }
+-keep public class com.quantallm.ChatSession { *; }
 -keep public class com.quantallm.DeviceCapability { *; }
 -keep public class com.quantallm.LicenseException { *; }
+
+# Obfuscate LicenseKey internals
 -keep public class com.quantallm.LicenseKey {
     public boolean isExpired();
     public java.lang.String getExpiryDate();
